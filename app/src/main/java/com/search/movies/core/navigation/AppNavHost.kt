@@ -1,0 +1,20 @@
+package com.search.movies.core.navigation
+
+import androidx.compose.runtime.Composable
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.rememberNavController
+
+@Composable
+fun AppNavHost(
+    navController: NavHostController = rememberNavController(),
+    startDestination: NavGraph = NavGraph.MovieNavGraph
+) {
+    NavHost(
+        navController = navController,
+        startDestination = startDestination
+    ) {
+        authNavGraph(navController)
+        movieNavGraph(navController)
+    }
+}
