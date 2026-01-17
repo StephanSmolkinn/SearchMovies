@@ -9,4 +9,7 @@ interface MovieRepository {
     suspend fun searchMovies(query: String): Result<List<Movie>, DataError.NetworkDataError>
 
     suspend fun getDetailMovie(id: Int): Result<MovieDetail, DataError.NetworkDataError>
+    suspend fun getPopularMovies(): Result<List<Movie>, DataError.NetworkDataError>
+    suspend fun getTopMovies(): Result<List<Movie>, DataError.NetworkDataError>
+    suspend fun getUpcomingMovies(): Result<List<Movie>, DataError.NetworkDataError>
 }

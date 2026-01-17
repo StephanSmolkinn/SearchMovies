@@ -24,4 +24,22 @@ class DefaultMovieRepository(
             .getDetailMovie(id)
             .map { movieDto -> movieDto.toMovieDetail() }
     }
+
+    override suspend fun getPopularMovies(): Result<List<Movie>, DataError.NetworkDataError> {
+        return remoteMovieDataSource
+            .getPopularMovies()
+            .map { it.result.map { movieDto -> movieDto.toMovie() } }
+    }
+
+    override suspend fun getTopMovies(): Result<List<Movie>, DataError.NetworkDataError> {
+        return remoteMovieDataSource
+            .getTopMovies()
+            .map { it.result.map { movieDto -> movieDto.toMovie() } }
+    }
+
+    override suspend fun getUpcomingMovies(): Result<List<Movie>, DataError.NetworkDataError> {
+        return remoteMovieDataSource
+            .getUpcomingMovies()
+            .map { it.result.map { movieDto -> movieDto.toMovie() } }
+    }
 }

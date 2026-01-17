@@ -1,3 +1,5 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -6,11 +8,26 @@ plugins {
     alias(libs.plugins.ksp)
 }
 
+val localProperties = Properties()
+val localPropertiesFile = rootProject.file("local.properties")
+
+if (localPropertiesFile.exists()) {
+    localProperties.load(localPropertiesFile.inputStream())
+}
+
+val apiKey: String = localProperties.getProperty("API_KEY") ?: "key_not_found"
+
 android {
     namespace = "com.search.movies"
     compileSdk = 36
 
     defaultConfig {
+        buildConfigField(
+            "String",
+            "API_KEY",
+            "\"$apiKey\""
+        )
+
         applicationId = "com.search.movies"
         minSdk = 24
         targetSdk = 36
@@ -38,6 +55,7 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
 }
 
@@ -64,8 +82,12 @@ dependencies {
     api(libs.koin.core)
     implementation(libs.koin.android)
     implementation(libs.koin.androidx.compose)
+    implementation(libs.room.runtime)
+    implementation(libs.room.ktx)
+    ksp(libs.room.compiler)
 
     implementation(libs.bundles.ktor)
     implementation(libs.ktor.client.okhttp)
     implementation(libs.coil.compose)
+    implementation(libs.lifecycle.compose)
 }
